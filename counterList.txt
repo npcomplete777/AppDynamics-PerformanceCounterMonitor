@@ -1,0 +1,3 @@
+\Processor(_Total)\% Processor Time
+\LogicalDisk(_Total)\% Free Space
+\browser\illegal datagrams/sec
