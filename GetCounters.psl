@@ -1,0 +1,25 @@
+<#specify the path in the line below for your performance counter text file #>
+<#performance counter text file should contain a single performance counter on each new line #>
+$memoryCounterPaths=@(get-content c:\ma5\MachineAgent\monitors\PerformanceCounterMonitor\counterList.txt)
+$len=$memoryCounterPaths | measure
+$len=$len.count-1
+	
+$i=0
+	
+do
+{
+    $counterVar = get-counter $memoryCounterPaths[$i]; 
+    $counterVarRawValue = $counterVar.countersamples | select-object -property rawvalue
+		$counterVarPath = $counterVar.countersamples | select-object -property path
+		
+		$counterVarRawValueHolder = $counterVarRawValue.rawvalue
+		$counterVarPathHolder = $counterVarPath.path
+		$counterVarPathHolderOut = [string]$counterVarPathHolder
+		
+		Write-Output "name=Custom Metrics|$counterVarPathHolderOut,value=$counterVarRawValueHolder"
+		
+		$i++;
+}
+while ($i -le $len)
+	
+	
